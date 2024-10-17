@@ -16,6 +16,7 @@ let
     name = "_nixbld${toString nr}";
     value = {
       description = "Nix build user ${toString nr}";
+      isSystemUser = true;
 
       /*
         For consistency with the setgid(2), setuid(2), and setgroups(2)
@@ -404,7 +405,7 @@ in
           { darwin-config = "${config.environment.darwinConfig}"; }
           "/nix/var/nix/profiles/per-user/root/channels"
         ];
-        
+
         defaultText = lib.literalExpression ''
           lib.optionals cfg.channel.enable [
             # Include default path <darwin-config>.
