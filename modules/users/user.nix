@@ -99,6 +99,7 @@
         else "/usr/bin/false"
       '';
       example = literalExpression "pkgs.bashInteractive";
+      apply = v: if types.shellPackage.check v then "/run/current-system/sw${v.shellPath}" else v;
       description = "The user's shell.";
     };
 
