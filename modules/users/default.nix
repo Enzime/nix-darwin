@@ -21,7 +21,7 @@ let
   gidsAreUnique = idsAreUnique (filterAttrs (n: g: g.gid != null) cfg.groups) "gid";
 
   group = import ./group.nix;
-  user = import ./user.nix;
+  user = import ./user.nix config;
 
   toArguments = concatMapStringsSep " " (v: "'${v}'");
   toGID = v: { "${toString v.gid}" = v.name; };
@@ -150,7 +150,7 @@ in
       }
     ]));
 
-    users.users.root.uid = 0;
+    users.users.root.uid = config.ids.uids.root;
 
     users.gids = mkMerge gids;
     users.uids = mkMerge uids;

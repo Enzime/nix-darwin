@@ -19,7 +19,7 @@ in
     ids.uids = lib.mkOption {
       internal = true;
       description = ''
-        The user IDs used in NixOS.
+        The user IDs used in nix-darwin.
       '';
       type = types.attrsOf types.int;
     };
@@ -27,7 +27,7 @@ in
     ids.gids = lib.mkOption {
       internal = true;
       description = ''
-        The group IDs used in NixOS.
+        The group IDs used in nix-darwin.
       '';
       type = types.attrsOf types.int;
     };
@@ -37,10 +37,14 @@ in
   config = {
 
     ids.uids = {
+      root = 0;
+
       nixbld = lib.mkDefault 350;
     };
 
     ids.gids = {
+      staff = 20;
+
       nixbld = lib.mkDefault (if config.system.stateVersion < 5 then 30000 else 350);
     };
 

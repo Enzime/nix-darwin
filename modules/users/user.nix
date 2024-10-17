@@ -1,3 +1,5 @@
+osConfig:
+
 { name, config, lib, ... }:
 
 {
@@ -34,7 +36,7 @@
 
     gid = mkOption {
       type = types.int;
-      default = 20;
+      default = osConfig.ids.gids.staff;
       description = "The user's primary group.";
     };
 
