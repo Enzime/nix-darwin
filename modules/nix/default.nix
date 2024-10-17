@@ -17,6 +17,7 @@ let
     value = {
       description = "Nix build user ${toString nr}";
       isSystemUser = true;
+      isHidden = true;
 
       /*
         For consistency with the setgid(2), setuid(2), and setgroups(2)
