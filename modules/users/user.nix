@@ -1,11 +1,10 @@
 { name, lib, ... }:
 
-with lib;
-
 {
-  options = {
+  options = with lib; {
     name = mkOption {
       type = types.str;
+      default = name;
       description = ''
         The name of the user account. If undefined, the name of the
         attribute set will be used.
@@ -74,11 +73,5 @@ with lib;
         which adds packages to all users.
       '';
     };
-  };
-
-  config = {
-
-    name = mkDefault name;
-
   };
 }

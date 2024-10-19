@@ -1,11 +1,10 @@
 { name, lib, ... }:
 
-with lib;
-
 {
-  options = {
+  options = with lib; {
     name = mkOption {
       type = types.str;
+      default = name;
       description = ''
         The group's name. If undefined, the name of the attribute set
         will be used.
@@ -28,11 +27,5 @@ with lib;
       default = "";
       description = "The group's description.";
     };
-  };
-
-  config = {
-
-    name = mkDefault name;
-
   };
 }
