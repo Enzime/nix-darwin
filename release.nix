@@ -1,12 +1,12 @@
 { nixpkgs ? <nixpkgs>
-, supportedSystems ? [ "x86_64-darwin" ]
+, supportedSystems ? [ "x86_64-darwin" "aarch64-darwin" ]
 , scrubJobs ? true
 }:
 
 let
-  inherit (release) mapTestOn packagePlatforms pkgs all linux darwin;
+  inherit (release) mapTestOn packagePlatforms pkgs;
 
-  system = "x86_64-darwin";
+  system = "aarch64-darwin";
 
   mapPlatforms = systems: pkgs.lib.mapAttrs (n: v: systems);
 
