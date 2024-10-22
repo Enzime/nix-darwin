@@ -161,6 +161,8 @@ jobs:
         darwin-rebuild build --flake ./modules/examples/flake#simple --override-input nix-darwin . --override-input nixpkgs nixpkgs/${{ env.CURRENT_STABLE_CHANNEL }}
     - name: Test git submodules
       run: |
+        set -x
+
         . /etc/static/bashrc
 
         mkdir -p /tmp/{test-nix-darwin-submodules,example-submodule}
@@ -244,6 +246,8 @@ jobs:
         darwin-rebuild build --flake ./modules/examples/flake#simple --override-input nix-darwin . --override-input nixpkgs nixpkgs/nixpkgs-unstable
     - name: Test git submodules
       run: |
+        set -x
+
         . /etc/static/bashrc
 
         mkdir -p /tmp/{test-nix-darwin-submodules,example-submodule}
