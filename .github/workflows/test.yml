@@ -2,11 +2,10 @@ name: "Test"
 on:
   pull_request:
   push:
-    branches:
-      - master
 
 env:
   CURRENT_STABLE_CHANNEL: nixpkgs-24.05-darwin
+  UNSTABLE_REF: b69de56fac8c2b6f8fd27f2eca01dcda8e0a4221
 
 jobs:
   test-stable:
@@ -231,11 +230,11 @@ jobs:
         nix run .#darwin-rebuild -- \
           switch --flake ~/.config/nix-darwin#simple \
           --override-input nix-darwin . \
-          --override-input nixpkgs nixpkgs/nixpkgs-unstable
+          --override-input nixpkgs nixpkgs/${{ env.UNSTABLE_REF }}
     - name: Rebuild and activate simple flake, but this time using nix-darwin's flake interface
       run: |
         . /etc/static/bashrc
-        darwin-rebuild build --flake ./modules/examples/flake#simple --override-input nix-darwin . --override-input nixpkgs nixpkgs/nixpkgs-unstable
+        darwin-rebuild build --flake ./modules/examples/flake#simple --override-input nix-darwin . --override-input nixpkgs nixpkgs/${{ env.UNSTABLE_REF }}
     - name: Test git submodules
       run: |
         . /etc/static/bashrc
@@ -270,7 +269,7 @@ jobs:
         darwin-rebuild build \
           --flake /tmp/test-nix-darwin-submodules#simple \
           --override-input nix-darwin . \
-          --override-input nixpkgs nixpkgs/nixpkgs-unstable \
+          --override-input nixpkgs nixpkgs/${{ env.UNSTABLE_REF }} \
           && {
             printf 'succeeded while expecting failure due to submodule\n' >/dev/stderr
             exit 1
@@ -280,7 +279,7 @@ jobs:
         darwin-rebuild build \
           --flake /tmp/test-nix-darwin-submodules?submodules=0#simple \
           --override-input nix-darwin . \
-          --override-input nixpkgs nixpkgs/nixpkgs-unstable \
+          --override-input nixpkgs nixpkgs/${{ env.UNSTABLE_REF }} \
           && {
             printf 'succeeded while expecting failure due to submodule\n' >/dev/stderr
             exit 1
@@ -290,10 +289,10 @@ jobs:
         darwin-rebuild build \
           --flake /tmp/test-nix-darwin-submodules?submodules=1#simple \
           --override-input nix-darwin . \
-          --override-input nixpkgs nixpkgs/nixpkgs-unstable
+          --override-input nixpkgs nixpkgs/${{ env.UNSTABLE_REF }}
 
         # Should also succeed
         darwin-rebuild build \
           --flake git+file:///tmp/test-nix-darwin-submodules?submodules=1#simple \
           --override-input nix-darwin . \
-          --override-input nixpkgs nixpkgs/nixpkgs-unstable
+          --override-input nixpkgs nixpkgs/${{ env.UNSTABLE_REF }}
