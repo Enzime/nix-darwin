@@ -4,7 +4,7 @@ on:
   push:
 
 env:
-  UNSTABLE_REF: c6e4482b218a6392c16af13a4bfd21f84ae5f764
+  UNSTABLE_REF: ad291eff6e725ab8ef4dc1fd64939df239328052
 
 jobs:
   install-flake-against-unstable:
