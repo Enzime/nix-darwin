@@ -9,8 +9,10 @@ let
     "defaults write ${domain} '${key}' $'${strings.escape [ "'" ] (generators.toPlist { } value)}'";
 
   defaultsToList = domain: attrs: mapAttrsToList (writeDefault domain) (filterAttrs (n: v: v != null) attrs);
-  userDefaultsToList = domain: attrs: map
-    (cmd: "sudo --user=${escapeShellArg config.system.primaryUser} -- ${cmd}")
+  userDefaultsToList = domain: attrs: let
+    user = escapeShellArg config.system.primaryUser;
+  in map
+    (cmd: ''launchctl asuser "$(id -u ${user})" sudo --user=${user} -- ${cmd}'')
     (defaultsToList domain attrs);
 
   # Filter out options to not pass through
