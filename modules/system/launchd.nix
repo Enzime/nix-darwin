@@ -37,7 +37,7 @@ let
     if ! diff ${cfg.build.launchd}/user/Library/LaunchAgents/${target} ~${user}/Library/LaunchAgents/${target} &> /dev/null; then
       if test -f ~${user}/Library/LaunchAgents/${target}; then
         echo "reloading user service $(basename ${target} .plist)" >&2
-        sudo --user=${user} -- launchctl unload ~${user}/Library/LaunchAgents/${target} || true
+        launchctl asuser "$(id -u ${user})" sudo --user=${user} -- launchctl unload ~${user}/Library/LaunchAgents/${target} || true
       else
         echo "creating user service $(basename ${target} .plist)" >&2
       fi
@@ -45,7 +45,7 @@ let
         sudo --user=${user} -- rm ~${user}/Library/LaunchAgents/${target}
       fi
       sudo --user=${user} -- cp -f '${cfg.build.launchd}/user/Library/LaunchAgents/${target}' ~${user}/Library/LaunchAgents/${target}
-      sudo --user=${user} -- launchctl load -w ~${user}/Library/LaunchAgents/${target}
+      launchctl asuser "$(id -u ${user})" sudo --user=${user} -- launchctl load -w ~${user}/Library/LaunchAgents/${target}
     fi
   '';
 
